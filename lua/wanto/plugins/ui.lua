@@ -62,12 +62,50 @@ return {
   {
     'nvim-telescope/telescope-project.nvim',
     config = function()
+      local project_actions = require("telescope._extensions.project.actions")
       require('telescope').setup {
         extensions = {
           project = {
-            search_dirs = {
-              "~/projects",
+            base_dirs = {
+              '~/projects',
             },
+            ignore_missing_dirs = true, -- default: false
+            hidden_files = true,        -- default: false
+            theme = "dropdown",
+            order_by = "asc",
+            search_by = "title",
+            sync_with_nvim_tree = true, -- default false
+            on_project_selected = function(prompt_bufnr)
+              -- Do anything you want in here. For example:
+              project_actions.change_working_directory(prompt_bufnr, false)
+              require("harpoon.ui").nav_file(1)
+            end,
+            mappings = {
+              n = {
+                ['d'] = project_actions.delete_project,
+                ['r'] = project_actions.rename_project,
+                ['c'] = project_actions.add_project,
+                ['C'] = project_actions.add_project_cwd,
+                ['f'] = project_actions.find_project_files,
+                ['b'] = project_actions.browse_project_files,
+                ['s'] = project_actions.search_in_project_files,
+                ['R'] = project_actions.recent_project_files,
+                ['w'] = project_actions.change_working_directory,
+                ['o'] = project_actions.next_cd_scope,
+              },
+              i = {
+                ['<c-d>'] = project_actions.delete_project,
+                ['<c-v>'] = project_actions.rename_project,
+                ['<c-a>'] = project_actions.add_project,
+                ['<c-A>'] = project_actions.add_project_cwd,
+                ['<c-f>'] = project_actions.find_project_files,
+                ['<c-b>'] = project_actions.browse_project_files,
+                ['<c-s>'] = project_actions.search_in_project_files,
+                ['<c-r>'] = project_actions.recent_project_files,
+                ['<c-l>'] = project_actions.change_working_directory,
+                ['<c-o>'] = project_actions.next_cd_scope,
+              }
+            }
           }
         }
       }
@@ -310,6 +348,7 @@ return {
           },
         },
         presets = {
+          inc_rename =true,
           bottom_search = true,
           command_palette = true,
           long_message_to_split = true,

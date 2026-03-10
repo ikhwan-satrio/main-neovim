@@ -1,5 +1,14 @@
 return {
-  -- Dependencies
+  {
+    "aikhe/wrapped.nvim",
+    dependencies = { "nvzone/volt" },
+    cmd = { "WrappedNvim" },
+    opts = {},
+  },
+  {
+    "smjonas/inc-rename.nvim",
+    opts = {}
+  },
   { "nvzone/volt", lazy = true },
   { "nvzone/menu", lazy = true },
   {

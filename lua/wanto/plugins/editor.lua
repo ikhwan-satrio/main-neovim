@@ -56,6 +56,19 @@ return {
     end,
   },
 
+  -- {
+  --   "antosha417/nvim-lsp-file-operations",
+  --   dependencies = { "nvim-lua/plenary.nvim" },
+  --   config = function()
+  --     require("lsp-file-operations").setup({
+  --       operations = {
+  --         willRenameFiles = true,
+  --         didRenameFiles = true,
+  --       },
+  --     })
+  --   end,
+  -- },
+
   -- ============================================================================
   -- TREESITTER
   -- ============================================================================
@@ -168,7 +181,7 @@ return {
     config = function()
       require("hlchunk").setup({
         chunk = {
-          enable=true,
+          enable = true,
           chars = {
             horizontal_line = "─",
             vertical_line = "│",

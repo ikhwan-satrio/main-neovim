@@ -1,4 +1,6 @@
 vim.lsp.enable {
+  'jsonls',
+  'denols',
   'lua_ls',
   'svelte',
   'vtsls',
