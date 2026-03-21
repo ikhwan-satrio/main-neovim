@@ -1,82 +1,99 @@
-# Neovim Configuration with mini.nvim
+# Wanto's Neovim Configuration
 
-This is a personal Neovim configuration that uses the `mini.nvim` framework. It's designed to be lightweight and fast, with a focus on modern development workflows.
+A modern, fast, and feature-rich Neovim configuration built with Lua, focusing on web development (Laravel, Vue, Angular, TypeScript) and a polished UI experience.
 
-## Features
+## ✨ Features
 
-- **Plugin Management**: Uses `lazy.nvim` for managing plugins.
-- **LSP**: Configured with `nvim-lspconfig` for language-specific features.
-- **Completion**: Basic completion setup.
-- **UI**: Customized with `lualine` and `catppuccin`.
+- 🚀 **Plugin Management**: Powered by [lazy.nvim](https://github.com/folke/lazy.nvim) for fast startup and easy management.
+- 🎨 **Aesthetic UI**: 
+  - [Catppuccin Mocha](https://github.com/catppuccin/nvim) theme with custom overrides.
+  - Custom [Lualine](https://github.com/nvim-lualine/lualine.nvim) with dynamic mode colors, LSP status, Copilot integration, and network monitoring.
+  - [Bufferline](https://github.com/akinsho/bufferline.nvim) for elegant tab management.
+  - [Noice.nvim](https://github.com/folke/noice.nvim) & [Nvim-notify](https://github.com/rcarriga/nvim-notify) for a modern command line and notification system.
+  - [Neo-tree](https://github.com/nvim-neo-tree/neo-tree.nvim) as a sidebar file explorer.
+- 🛠️ **LSP & Completion**:
+  - [blink.cmp](https://github.com/Saghen/blink.cmp): High-performance completion engine.
+  - [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig) with automatic server installation via [Mason](https://github.com/williamboman/mason.nvim).
+  - Specialized support for **Laravel**, **Python (Venv)**, and **Frontend** frameworks.
+- 🔍 **Powerful Search**: [Telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) with extensions for projects, undo history, git history, and more.
+- 📝 **Editing Enhancements**:
+  - [Treesitter](https://github.com/nvim-treesitter/nvim-treesitter) for superior syntax highlighting.
+  - [Conform.nvim](https://github.com/stevearc/conform.nvim) for lightning-fast formatting.
+  - [Mini.nvim](https://github.com/echasnovski/mini.nvim) modules for icons, pairs, diff, and buffer removal.
+  - [Markview.nvim](https://github.com/OXY2DEV/markview.nvim) for beautiful Markdown previewing.
+- 🎮 **Extras**:
+  - [Cord.nvim](https://github.com/vyfor/cord.nvim) for Discord Rich Presence.
+  - [Toggleterm.nvim](https://github.com/akinsho/toggleterm.nvim) for integrated terminal management.
+  - [Laravel.nvim](https://github.com/adalessa/laravel.nvim) for a first-class Laravel development experience.
 
-## Plugins
+## ⌨️ Key Mappings
 
-This configuration uses the following plugins:
+The `<leader>` key is set to `Space` (default).
 
-- [mini.nvim](https://github.com/nvim-mini/mini.nvim): A lightweight and fast Neovim framework.
-- [oil.nvim](https://github.com/stevearc/oil.nvim): A file explorer.
-- [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter): For syntax highlighting and parsing.
-- [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim): A fuzzy finder.
-- [telescope-ui-select.nvim](https://github.com/nvim-telescope/telescope-ui-select.nvim): A Telescope extension for UI selection.
-- [plenary.nvim](https://github.com/nvim-lua/plenary.nvim): A library of useful Lua functions.
-- [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig): Configurations for the Neovim LSP client.
-- [mason.nvim](https://github.com/mason-org/mason.nvim): A package manager for LSP servers, DAP servers, linters, and formatters.
-- [LuaSnip](https://github.com/L3MON4D3/LuaSnip): A snippet engine.
-- [nvim-dap](https://github.com/mfussenegger/nvim-dap): A debug adapter protocol implementation.
-- [blink.cmp](https://github.com/Saghen/blink.cmp): A completion source for `nvim-cmp`.
-- [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim): A statusline plugin.
-- [catppuccin/nvim](https://github.com/catppuccin/nvim): A theme.
-- [noice.nvim](https://github.com/folke/noice.nvim): A plugin for improved Neovim messages.
-- [nui.nvim](https://github.com/MunifTanjim/nui.nvim): A UI component library.
-- [conform.nvim](https://github.com/stevearc/conform.nvim): A code formatter.
-- [which-key.nvim](https://github.com/folke/which-key.nvim): A plugin that displays a popup with possible keybindings.
-- [toggleterm.nvim](https://github.com/akinsho/toggleterm.nvim): A terminal manager.
-- [bufferline.nvim](https://github.com/akinsho/bufferline.nvim): A plugin for displaying buffers in a line.
-- [markview.nvim](https://github.com/OXY2DEV/markview.nvim): A Markdown previewer.
-- [vimtex](https://github.com/lervag/vimtex): A filetype and syntax plugin for LaTeX.
-- [cord.nvim](https://github.com/vyfor/cord.nvim): A Discord Rich Presence plugin.
-
-## Key Mappings
-
-### General
-
+### 🔍 Search (Telescope)
 | Key | Description |
 |---|---|
-| `<leader>sf` | Find files with Telescope. |
-| `<leader>sd` | Show diagnostics with Telescope. |
-| `<leader>q` | Open diagnostic quickfix list. |
-| `<leader>e` | Open mini explorer (Oil). |
-| `<leader>bd` | Delete buffer. |
-| `<leader>bD` | Delete buffer (force). |
-| `[b` | Previous buffer. |
-| `]b` | Next buffer. |
-| `<leader>r` | Format buffer with `conform.nvim`. |
-| `<C-s>` | Save file. |
+| `<leader>sf` | Find Files |
+| `<leader>sF` | Find All Files (including hidden) |
+| `<leader>sg` | Live Grep |
+| `<leader>sd` | Diagnostics |
+| `<leader>sp` | Projects |
+| `<leader>su` | Undo Tree |
+| `<leader>sr` | Recent Files |
+| `<leader>sh` | Help Tags |
 
-### Terminal
-
+### 📂 Explorer & UI
 | Key | Description |
 |---|---|
-| `<Esc><Esc>` | Exit terminal mode. |
+| `<leader>e` | Toggle Neo-tree |
+| `<leader>tt` | Toggle Terminal |
+| `<C-t>` | Open Context Menu (NVZone Menu) |
+| `<leader>xx` | Toggle Trouble (Diagnostics) |
 
-### Movement
-
+### 🛠️ LSP & Editing
 | Key | Description |
 |---|---|
-| `<C-h>` | Move focus to the left window. |
-| `<C-l>` | Move focus to the right window. |
-| `<C-j>` | Move focus to the down window. |
-| `<C-k>` | Move focus to the up window. |
-| `<A-Up>` | Move line up. |
-| `<A-Down>` | Move line down. |
+| `<leader>rn` | Incremental Rename |
+| `<leader>f` | Format Buffer |
+| `<leader>q` | Open Diagnostic Quickfix |
+| `<C-s>` | Save File |
+| `[b` / `]b` | Previous / Next Buffer |
+| `<leader>bd` | Delete Buffer |
 
-## Installation
+### 🚀 Laravel & Python
+| Key | Description |
+|---|---|
+| `<leader>ll` | Laravel Picker |
+| `<leader>la` | Artisan Picker |
+| `,v` | Venv Selector (Python) |
 
-1.  Clone this repository to your Neovim configuration directory:
-    ```bash
-    git clone <repository_url> ~/.config/nvim
-    ```
-2.  Start Neovim. `mini.nvim` will be installed automatically.
-3.  The rest of the plugins will be installed by `mini.deps`.
+## 🚀 Installation
 
-**Note**: You may need to install the language servers you use with Mason (`:Mason`).
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/wanto-production/nvim-config.git ~/.config/nvim
+   ```
+
+2. **Open Neovim**:
+   ```bash
+   nvim
+   ```
+   *Lazy.nvim will automatically download and install all plugins.*
+
+3. **Install Language Servers**:
+   Most servers are handled by `mason-tool-installer`, but you can manually manage them via `:Mason`.
+
+## 📁 Structure
+
+```text
+~/.config/nvim
+├── init.lua              # Entry point
+└── lua/wanto/
+    ├── core/             # Options, Keymaps, API
+    ├── plugins/          # Plugin specifications (UI, Editor, LSP, etc.)
+    ├── lazy.lua          # Lazy.nvim configuration
+    └── lsp.lua           # LSP server configurations
+```
+
+---
+Built with ❤️ by [Wanto](https://github.com/wanto-production)
