@@ -18,6 +18,7 @@ vim.diagnostic.config {
 }
 
 -- Settings
+vim.g.lazyvim_rust_diagnostics = "rust-analyzer"
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.g.mapleader = ' '

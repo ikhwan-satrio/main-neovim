@@ -1,10 +1,101 @@
 return {
+  {
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    build = ":Copilot auth",
+    event = "BufReadPost",
+    opts = function()
+      -- cek koneksi ke github
+      local online = vim.fn.system('ping -c 1 -W 1 github.com > /dev/null 2>&1; echo $?')
+      local is_online = vim.trim(online) == '0'
+
+      return {
+        suggestion = {
+          enabled = is_online and not vim.g.ai_cmp,
+          auto_trigger = is_online,
+          hide_during_completion = vim.g.ai_cmp,
+          keymap = {
+            accept = "<c-Tab>",
+            next = "<M-]>",
+            prev = "<M-[>",
+          },
+        },
+        panel = { enabled = false },
+        filetypes = {
+          markdown = true,
+          help = true,
+        },
+      }
+    end,
+  },
+
+  {
+    "adalessa/laravel.nvim",
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+      "nvim-lua/plenary.nvim",
+      "nvim-neotest/nvim-nio",
+    },
+    ft = { "php", "blade" },
+    event = {
+      "BufEnter composer.json",
+    },
+    keys = {
+      { "<leader>ll", function() Laravel.pickers.laravel() end,              desc = "Laravel: Open Laravel Picker" },
+      { "<c-g>",      function() Laravel.commands.run("view:finder") end,    desc = "Laravel: Open View Finder" },
+      { "<leader>la", function() Laravel.pickers.artisan() end,              desc = "Laravel: Open Artisan Picker" },
+      { "<leader>lt", function() Laravel.commands.run("actions") end,        desc = "Laravel: Open Actions Picker" },
+      { "<leader>lr", function() Laravel.pickers.routes() end,               desc = "Laravel: Open Routes Picker" },
+      { "<leader>lh", function() Laravel.run("artisan docs") end,            desc = "Laravel: Open Documentation" },
+      { "<leader>lm", function() Laravel.pickers.make() end,                 desc = "Laravel: Open Make Picker" },
+      { "<leader>lc", function() Laravel.pickers.commands() end,             desc = "Laravel: Open Commands Picker" },
+      { "<leader>lo", function() Laravel.pickers.resources() end,            desc = "Laravel: Open Resources Picker" },
+      { "<leader>lp", function() Laravel.commands.run("command_center") end, desc = "Laravel: Open Command Center" },
+      { "<leader>lu", function() Laravel.commands.run("hub") end,            desc = "Laravel Artisan hub" },
+      {
+        "gf",
+        function()
+          local ok, res = pcall(function()
+            if Laravel.app("gf").cursorOnResource() then
+              return "<cmd>lua Laravel.commands.run('gf')<cr>"
+            end
+          end)
+          if not ok or not res then
+            return "gf"
+          end
+          return res
+        end,
+        expr = true,
+        noremap = true,
+      },
+    },
+    opts = {
+      features = {
+        pickers = {
+          provider = "telescope", -- "snacks | telescope | fzf-lua | ui-select"
+        },
+      },
+    },
+  },
+
+  {
+    "3rd/image.nvim",
+    config = function()
+      require("image").setup {
+        render = {
+          min_padding = 5,
+          show_label = true,
+          use_dither = true,
+        },
+      }
+    end,
+  },
+
   -- ============================================================================
   -- FILE EXPLORER
   -- ============================================================================
   {
     'nvim-neo-tree/neo-tree.nvim',
-    branch = 'v3.x',
     config = function()
       require('neo-tree').setup {
         use_popups_for_input = false,
@@ -20,7 +111,7 @@ return {
           winbar = true,
           statusline = false,
           tabs = {
-            { source = 'filesystem', display_name = ' 󰉋 Files ' },
+            { source = 'filesystem', display_name = ' 󰉋 Files ', },
             { source = 'buffers', display_name = ' 󰈚 Buffers ' },
             { source = 'git_status', display_name = ' 󰊢 Git ' },
           },

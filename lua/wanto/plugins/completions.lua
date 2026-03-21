@@ -42,7 +42,6 @@ return {
     'Saghen/blink.cmp',
     event = 'InsertEnter', -- start only on insert to speed up startup
     version = '1.*',
-    build = 'cargo build --release',
     dependencies = {
       {
         'folke/lazydev.nvim',
@@ -54,6 +53,12 @@ return {
         },
       },
       { 'b0o/schemastore.nvim' },
+      {
+        'saghen/blink.compat',
+        version = '2.*',
+        lazy = true,
+        opts = {},
+      },
     },
     opts = function()
       local mini_icons = require 'mini.icons'
@@ -105,11 +110,16 @@ return {
           },
         },
         sources = {
-          default = { 'lsp', 'path', 'lazydev' },
+          default = { 'lsp', 'path', 'lazydev','laravel' },
           providers = {
             lazydev = {
               module = 'lazydev.integrations.blink',
               score_offset = 100,
+            },
+            laravel = {
+              name = "laravel",
+              module = "blink.compat.source",
+              score_offset = 95, -- show at a higher priority than lsp
             },
           },
         },

@@ -1,4 +1,5 @@
 vim.lsp.enable {
+  'elixirls',
   'jsonls',
   'denols',
   'lua_ls',
@@ -9,5 +10,6 @@ vim.lsp.enable {
   'marksman',
   'basedpyright',
   'vue_ls',
-  'clangd'
+  'clangd',
+  'intelephense'
 }
