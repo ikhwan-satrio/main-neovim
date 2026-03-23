@@ -602,11 +602,13 @@ return {
     priority = 1000,
     event = "VimEnter",
     config = function()
+      vim.api.nvim_set_hl(0, "CursorLine", { bg = "NONE" })
+      vim.api.nvim_set_hl(0, "CursorLineNr", { bg = "NONE", fg = "#cba6f7", bold = true }) -- optional, biar nomor baris tetap keliatan
       require('catppuccin').setup {
         flavour = 'mocha',
-        transparent_background = false,
+        transparent_background = true,
         dim_inactive = {
-          enabled = true,
+          enabled = false,
           shade = 'dark',
           percentage = 0.10,
         },
