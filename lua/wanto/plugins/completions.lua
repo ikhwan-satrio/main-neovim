@@ -24,7 +24,16 @@ return {
     'WhoIsSethDaniel/mason-tool-installer.nvim',
     event = 'VimEnter',
     opts = {
-      ensure_installed = { 'vtsls', 'tailwindcss-language-server', 'svelte-language-server' },
+      ensure_installed = {
+        'vtsls',
+        'emmet-ls',
+        'tailwindcss-language-server',
+        'svelte-language-server',
+        'astro-language-server',
+        'vue-language-server',
+        'angular-language-server',
+        'copilot-language-server',
+      },
       auto_install = true,
       run_on_start = true,
       integrations = {
@@ -110,7 +119,7 @@ return {
           },
         },
         sources = {
-          default = { 'lsp', 'path', 'lazydev','laravel' },
+          default = { 'lsp', 'path', 'lazydev', 'laravel' },
           providers = {
             lazydev = {
               module = 'lazydev.integrations.blink',

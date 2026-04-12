@@ -1,4 +1,11 @@
 vim.lsp.enable {
+  'emmet_ls',
+  'kotlin_language_server',
+  'jdtls',
+  'angularls',
+  'hyprls',
+  'gopls',
+  'astro',
   'elixirls',
   'jsonls',
   'denols',
@@ -9,7 +16,6 @@ vim.lsp.enable {
   'nixd',
   'marksman',
   'basedpyright',
-  'vue_ls',
   'clangd',
   'intelephense'
 }

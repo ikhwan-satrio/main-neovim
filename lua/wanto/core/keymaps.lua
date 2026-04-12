@@ -44,6 +44,7 @@ map({ 'n' }, '<leader>slt', builtIn.lsp_type_definitions, { desc = '[L] type def
 map({ 'n' }, '<leader>sli', builtIn.lsp_implementations, { desc = '[L] implementations' })
 map({ 'n' }, '<leader>sls', builtIn.lsp_document_symbols, { desc = '[L] document symbols' })
 map({ 'n' }, '<leader>slw', builtIn.lsp_workspace_symbols, { desc = '[L] workspace symbols' })
+map({ 'n' }, '<leader>lc', vim.lsp.buf.code_action, { desc = '[L] code action' })
 
 -- =====================================
 -- MISC

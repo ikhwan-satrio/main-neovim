@@ -32,6 +32,7 @@ local additional_plugins = {
 }
 
 return {
+  cmd = { "vtsls", "--stdio" },
   root_markers = { "package.json" },
   filetypes = {
     "typescript",
@@ -56,7 +57,14 @@ return {
       },
     },
     typescript = {
-      tsdk = vim.fn.getcwd() .. "/node_modules/typescript/lib",
+      tsdk = (function()
+        local local_ts = vim.fn.getcwd() .. "/node_modules/typescript/lib"
+        if vim.fn.isdirectory(local_ts) == 1 then
+          return local_ts
+        end
+        return vim.fn.stdpath("data") ..
+            "/mason/packages/vtsls/node_modules/@vtsls/language-server/node_modules/typescript/lib"
+      end)(),
       updateImportsOnFileMove = {
         enabled = "always",
       },
@@ -73,4 +81,7 @@ return {
       },
     },
   },
+  on_attach = function()
+    vim.lsp.enable('vue_ls')
+  end,
 }

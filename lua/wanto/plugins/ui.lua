@@ -222,8 +222,19 @@ return {
         t     = "TERMINAL",
       }
 
+      local _net_cache = { status = nil, last_check = 0 }
+
       -- Copilot status component
       local function copilot_status()
+        local now = os.time()
+        -- cek ulang setiap 10 detik
+        if now - _net_cache.last_check > 10 then
+          local result          = os.execute('ping -c 1 -W 1 8.8.8.8 > /dev/null 2>&1')
+          _net_cache.status     = (result == 0)
+          _net_cache.last_check = now
+        end
+
+
         local ok, clients = pcall(vim.lsp.get_clients, { name = "copilot", bufnr = 0 })
         if not ok or #clients == 0 then return "" end
 
@@ -239,6 +250,8 @@ return {
           return "%#CopilotProgress# 󰚩 Copilot%*"
         elseif status_data == "Warning" then
           return "%#CopilotWarning#  Copilot%*"
+        elseif not _net_cache.status then
+          return "%#NetworkOffline# 󰖪 OFFLINE%*"
         else
           return "%#CopilotOk# 󰊤 Copilot%*"
         end
@@ -258,25 +271,6 @@ return {
         end
         if #names == 0 then return "" end
         return "%#LualineLsp# 󰒋 " .. table.concat(names, " · ") .. "%*"
-      end
-
-      -- Network Status
-      local _net_cache = { status = nil, last_check = 0 }
-
-      local function network_status()
-        local now = os.time()
-        -- cek ulang setiap 10 detik
-        if now - _net_cache.last_check > 10 then
-          local result          = os.execute('ping -c 1 -W 1 8.8.8.8 > /dev/null 2>&1')
-          _net_cache.status     = (result == 0)
-          _net_cache.last_check = now
-        end
-
-        if _net_cache.status then
-          return "" -- online → tidak tampil
-        else
-          return "%#NetworkOffline# 󰖪 OFFLINE%*"
-        end
       end
 
       -- Setup custom highlights
@@ -425,11 +419,51 @@ return {
             },
           },
           lualine_x = {
-            -- Copilot pill
+            -- In lualine_x section, add:
             {
-              network_status,
-              color = { bg = "NONE" },
+              -- Show active Python venv
+              function()
+                local venv = vim.env.VIRTUAL_ENV
+                if venv then
+                  local venv_name = vim.fn.fnamemodify(venv, ":t")
+                  return string.format(" %s", venv_name)
+                end
+                return ""
+              end,
+              cond = function()
+                return vim.bo.filetype == "python"
+              end,
+              color = { fg = colors.yellow, gui = "bold" },
             },
+
+            -- Show recording macro
+            {
+              function()
+                local reg = vim.fn.reg_recording()
+                if reg == "" then return "" end
+                return "󰑊 rec @" .. reg
+              end,
+              color = { fg = colors.red, gui = "bold" },
+            },
+
+            -- Show lazy.nvim updates available
+            {
+              function()
+                local ok, lazy_status = pcall(require, "lazy.status")
+                if not ok then return "" end
+                if lazy_status.has_updates() then
+                  return " " .. lazy_status.updates()
+                end
+                return ""
+              end,
+              cond = function()
+                local ok, lazy_status = pcall(require, "lazy.status")
+                return ok and lazy_status.has_updates()
+              end,
+              color = { fg = colors.peach, gui = "bold" },
+            },
+
+            -- Copilot pill
             {
               copilot_status,
               color = { bg = "NONE" },

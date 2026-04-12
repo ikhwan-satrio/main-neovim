@@ -4,8 +4,8 @@ vim.cmd [[set noswapfile]]
 local severity = vim.diagnostic.severity
 vim.diagnostic.config {
   virtual_text = true,
-  underline = false,
-  update_in_insert = false,
+  underline = true,
+  update_in_insert = true,
   severity_sort = true,
   signs = {
     text = {
