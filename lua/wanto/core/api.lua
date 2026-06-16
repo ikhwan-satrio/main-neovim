@@ -1,6 +1,13 @@
 vim.api.nvim_create_autocmd("LspAttach", {
-  callback = function(args)
+  callback = function()
     vim.lsp.handlers["textDocument/signatureHelp"] = function() end
+  end,
+})
+
+vim.api.nvim_create_autocmd({ 'BufReadPost', 'BufNewFile' }, {
+  pattern = { '*.component.html', '*.container.html' },
+  callback = function()
+    vim.treesitter.start(nil, 'angular')
   end,
 })
 

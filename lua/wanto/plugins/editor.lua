@@ -1,32 +1,20 @@
 return {
   {
-    "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    build = ":Copilot auth",
-    event = "BufReadPost",
-    opts = function()
-      -- cek koneksi ke github
-      local online = vim.fn.system('ping -c 1 -W 1 github.com > /dev/null 2>&1; echo $?')
-      local is_online = vim.trim(online) == '0'
-
-      return {
-        suggestion = {
-          enabled = is_online and not vim.g.ai_cmp,
-          auto_trigger = is_online,
-          hide_during_completion = vim.g.ai_cmp,
-          keymap = {
-            accept = "<c-Tab>",
-            next = "<M-]>",
-            prev = "<M-[>",
-          },
+    "Saecki/crates.nvim",
+    event = { "BufRead Cargo.toml" },
+    opts = {
+      completion = {
+        crates = {
+          enabled = true,
         },
-        panel = { enabled = false },
-        filetypes = {
-          markdown = true,
-          help = true,
-        },
-      }
-    end,
+      },
+      lsp = {
+        enabled = true,
+        actions = true,
+        completion = true,
+        hover = true,
+      },
+    },
   },
 
   {
@@ -196,13 +184,6 @@ return {
           additional_vim_regex_highlighting = false,
         },
       }
-
-      vim.api.nvim_create_autocmd({ 'BufReadPost', 'BufNewFile' }, {
-        pattern = { '*.component.html', '*.container.html' },
-        callback = function()
-          vim.treesitter.start(nil, 'angular')
-        end,
-      })
     end
   },
 

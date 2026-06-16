@@ -1,16 +1,18 @@
 return {
   cmd = { "lua-language-server" },
-  filetypes = { 'lua' },   -- Hanya aktif di .lua files
+  filetypes = { 'lua' }, -- Hanya aktif di .lua files
   settings = {
     Lua = {
       runtime = {
         version = "LuaJIT",
       },
       diagnostics = {
-        globals = { "vim" },
+        -- Tambahkan 'hl' ke globals agar tidak dianggap undefined
+        globals = { "vim", "hl" },
       },
       workspace = {
-        library = vim.api.nvim_get_runtime_file("", true),
+        -- Ambil runtime files Neovim, lalu tambahkan direktori stub Hyprland
+        library = vim.api.nvim_get_runtime_file("", true), -- load semua runtime Neovim
         checkThirdParty = false,
       },
       telemetry = {

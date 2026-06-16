@@ -25,17 +25,6 @@ map({ 'n' }, '<leader>sj', builtIn.jumplist, { desc = '[F] jumplist' })
 map({ 'n' }, '<leader>sq', builtIn.quickfix, { desc = '[F] quickfix' })
 
 -- =====================================
--- GIT
--- =====================================
-map({ 'n' }, '<leader>sgc', builtIn.git_commits, { desc = '[G] commits' })
-map({ 'n' }, '<leader>sgC', builtIn.git_bcommits, { desc = '[G] buffer commits' })
-map({ 'n' }, '<leader>sgb', builtIn.git_branches, { desc = '[G] branches' })
-map({ 'n' }, '<leader>sgs', builtIn.git_status, { desc = '[G] status' })
-map({ 'n' }, '<leader>sgS', builtIn.git_stash, { desc = '[G] stash' })
-map({ 'n' }, '<leader>sgf', builtIn.git_files, { desc = '[G] files' })
-map('n', '<leader>sgh', '<cmd>Telescope git_file_history<cr>', { desc = '[G] file history' })
-
--- =====================================
 -- LSP
 -- =====================================
 map({ 'n' }, '<leader>slr', builtIn.lsp_references, { desc = '[L] references' })

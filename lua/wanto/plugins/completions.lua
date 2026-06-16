@@ -1,7 +1,19 @@
+
 return {
   -- ============================================================================
   -- LSP
   -- ============================================================================
+  {
+    "folke/lazydev.nvim",
+    ft = "lua",
+    opts = {
+      library = {
+        { path = '${3rd}/luv/library',                         words = { 'vim%.uv' } },
+        { path = vim.fn.expand(os.getenv("HYPR_STUBS") or ""), words = { "hl" } },
+      },
+    },
+  },
+
   {
     'neovim/nvim-lspconfig',
     event = { 'BufReadPre', 'BufNewFile' }, -- ⚡ KUNCI: Event yang tepat
@@ -26,12 +38,10 @@ return {
     opts = {
       ensure_installed = {
         'vtsls',
-        'emmet-ls',
         'tailwindcss-language-server',
         'svelte-language-server',
         'astro-language-server',
         'vue-language-server',
-        'angular-language-server',
         'copilot-language-server',
       },
       auto_install = true,
@@ -52,15 +62,6 @@ return {
     event = 'InsertEnter', -- start only on insert to speed up startup
     version = '1.*',
     dependencies = {
-      {
-        'folke/lazydev.nvim',
-        ft = 'lua',
-        opts = {
-          library = {
-            { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
-          },
-        },
-      },
       { 'b0o/schemastore.nvim' },
       {
         'saghen/blink.compat',

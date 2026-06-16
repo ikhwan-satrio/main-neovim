@@ -1,8 +1,12 @@
+vim.lsp.document_color.enable(false)
+
 vim.lsp.enable {
+  'zls',
   'emmet_ls',
+  'protols',
   'kotlin_language_server',
+  'rust-analyzer',
   'jdtls',
-  'angularls',
   'hyprls',
   'gopls',
   'astro',

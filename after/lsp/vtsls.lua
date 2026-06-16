@@ -31,9 +31,10 @@ local additional_plugins = {
   },
 }
 
+---@type vim.lsp.Config
 return {
   cmd = { "vtsls", "--stdio" },
-  root_markers = { "package.json" },
+  root_markers = { "node_modules", "package.json" },
   filetypes = {
     "typescript",
     "javascript",
@@ -73,10 +74,10 @@ return {
       },
       inlayHints = {
         enumMemberValues = { enabled = true },
-        functionLikeReturnTypes = { enabled = true },
+        functionLikeReturnTypes = { enabled = false },
         parameterNames = { enabled = "literals" },
-        parameterTypes = { enabled = true },
-        propertyDeclarationTypes = { enabled = true },
+        parameterTypes = { enabled = false },
+        propertyDeclarationTypes = { enabled = false },
         variableTypes = { enabled = false },
       },
     },
