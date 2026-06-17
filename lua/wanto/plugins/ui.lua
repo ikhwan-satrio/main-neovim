@@ -693,7 +693,7 @@ return {
         { '<leader>s', group = 'search' },
         { '<leader>g', group = 'git' },
         { '<leader>l', group = 'lsp' },
-      }
+      },
     }
   },
 }

@@ -1,5 +1,18 @@
 return {
   {
+    "Owen-Dechow/videre.nvim",
+    cmd = "Videre",
+    dependencies = {
+      "Owen-Dechow/graph_view_yaml_parser", -- Optional: add YAML support
+      "Owen-Dechow/graph_view_toml_parser", -- Optional: add TOML support
+      "a-usr/xml2lua.nvim",                 -- Optional | Experimental: add XML support
+    },
+    opts = {
+      box_style = "sharp",
+    }
+  },
+
+  {
     "Saecki/crates.nvim",
     event = { "BufRead Cargo.toml" },
     opts = {
@@ -54,55 +67,15 @@ return {
   -- FILE EXPLORER
   -- ============================================================================
   {
-    'nvim-neo-tree/neo-tree.nvim',
+    "nvim-tree/nvim-tree.lua",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
-      require('neo-tree').setup {
-        use_popups_for_input = false,
-        close_if_last_window = false,
-        enable_git_status = true,
-        enable_diagnostics = true,
-        sources = {
-          'filesystem',
-          'buffers',
-          'git_status',
-        },
-        source_selector = {
-          winbar = true,
-          statusline = false,
-          tabs = {
-            { source = 'filesystem', display_name = ' 󰉋 Files ', },
-            { source = 'buffers', display_name = ' 󰈚 Buffers ' },
-            { source = 'git_status', display_name = ' 󰊢 Git ' },
-          },
-        },
-        window = {
-          position = 'right',
+      require("nvim-tree").setup({
+        view = {
+          side = "right",
           width = 30,
-          mappings = {
-            ['<tab>'] = 'next_source',
-            ['<s-tab>'] = 'prev_source',
-          },
         },
-        default_component_configs = {
-          indent = {
-            with_markers = true,
-            indent_marker = '│',
-            last_indent_marker = '└',
-            indent_size = 2,
-          },
-        },
-        filesystem = {
-          follow_current_file = {
-            enabled = true,
-          },
-          use_libuv_file_watcher = true,
-          filtered_items = {
-            visible = true,
-            hide_dotfiles = false,
-            hide_gitignored = false,
-          },
-        },
-      }
+      })
     end,
   },
 
@@ -124,67 +97,47 @@ return {
   -- ============================================================================
   {
     'nvim-treesitter/nvim-treesitter',
-    branch = "master",
-    event = { 'BufReadPost', 'BufNewFile' },
+    branch = 'main',
+    lazy = false, -- plugin ini nggak support lazy-loading
     build = ':TSUpdate',
-    config = function()
-      require('nvim-treesitter.configs').setup {
-        ensure_installed = {
-          'regex',
-          'bash',
-          'vue',
-          'angular',
-          'scss',
-          'typescript',
-          'javascript',
-          'astro',
-          'svelte',
-          'css',
-          'html',
-          'bash',
-          'c',
-          'c_sharp',
-          'diff',
-          'lua',
-          'luadoc',
-          'markdown',
-          'markdown_inline',
-          'query',
-          'vim',
-          'vimdoc',
-          'rust',
-          'ron',
-          'regex',
-          'php',
-          'latex',
-          'html',
-          'norg',
-          'typst',
-          'nix',
-          'markdown',
-          'markdown_inline',
-          'latex',
-          'yaml',
-          'tsx',
-          'norg',
-        },
-        sync_install = false,
-        ignore_install = {},
-        modules = {},
-        auto_install = true,
-        highlight = {
-          enable = true,
-          disable = function(_, buf)
-            local max_filesize = 100 * 1024 -- 100 KB
-            local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-            if ok and stats and stats.size > max_filesize then
-              return true
-            end
-          end,
-          additional_vim_regex_highlighting = false,
-        },
+    dependencies = {
+      {
+        "romus204/tree-sitter-manager.nvim",
+        config = function()
+          require("tree-sitter-manager").setup({
+            auto_install = true,
+            ensure_installed = {
+              'bash', 'vue', 'angular', 'scss', 'typescript', 'javascript',
+              'astro', 'svelte', 'css', 'html', 'c', 'c_sharp', 'diff',
+              'lua', 'luadoc', 'markdown', 'markdown_inline', 'query',
+              'vim', 'vimdoc', 'rust', 'ron', 'regex', 'php', 'latex',
+              'typst', 'nix', 'yaml', 'tsx',
+            },
+          })
+        end,
       }
-    end
+    },
+    config = function()
+      local ft_list = {
+        'sh', 'vue', 'scss', 'typescript', 'javascript',
+        'astro', 'svelte', 'css', 'html', 'c', 'cs', 'diff',
+        'lua', 'markdown', 'query', 'vim', 'help', 'rust', 'ron',
+        'php', 'tex', 'plaintex', 'norg', 'typst', 'nix', 'yaml',
+        'typescriptreact', 'zig',
+      }
+
+      vim.api.nvim_create_autocmd('FileType', {
+        pattern = ft_list,
+        callback = function(args)
+          local max_filesize = 100 * 1024 -- 100 KB
+          local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(args.buf))
+          if ok and stats and stats.size > max_filesize then
+            return
+          end
+          vim.treesitter.start(args.buf)
+        end,
+      })
+    end,
   },
 
   -- ============================================================================

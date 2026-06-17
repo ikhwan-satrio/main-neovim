@@ -3,7 +3,7 @@ local home = os.getenv("HOME")
 -- Paths
 local jdtls_path = home .. "/.local/share/nvim/mason/packages/jdtls"
 local lombok_path = jdtls_path .. "/lombok.jar"
-local workspace_dir = home .. "/.local/share/nvim/jdtls-workspace/" .. vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
+local workspace_dir = home .. "/.cache/nvim/jdtls-workspace/" .. vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
 
 ---@type vim.lsp.Config
 return {

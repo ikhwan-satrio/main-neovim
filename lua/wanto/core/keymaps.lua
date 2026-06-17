@@ -75,7 +75,9 @@ map('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus up' })
 map('n', '<A-Up>', ':m .-2<CR>==', { desc = 'Move line up', silent = true })
 map('n', '<A-Down>', ':m .+1<CR>==', { desc = 'Move line down', silent = true })
 map('n', 'D', '"_D')
-map('n', '<leader>e', '<cmd>Neotree toggle<CR>', { desc = '[E]xplorer' }) -- UPDATE
+map('n', '<leader>e', function()
+  require('mini.files').open()
+end, { desc = '[E]xplorer' })
 map('n', '<leader>xx', function()
   require('trouble').toggle { mode = 'diagnostics' }
 end, { desc = 'Diagnostics (Trouble)' })
