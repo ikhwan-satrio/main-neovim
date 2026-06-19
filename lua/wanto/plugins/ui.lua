@@ -34,7 +34,13 @@ return {
 
       telescope.setup {
         defaults = {
-          -- your defaults
+          file_ignore_patterns = {
+            "node_modules",
+            "%.git/",
+            "target/",
+            "build/",
+            "dist/"
+          },
         },
         extensions = {
           -- extensions will be configured by their own specs

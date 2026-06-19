@@ -13,6 +13,10 @@ map({ 'n' }, '<leader>su', extensions.undo.undo, { desc = '[F] undo' })
 -- =====================================
 -- FILE & SEARCH
 -- =====================================
+map({ 'n' }, '<leader>tm', function()
+  require('mini.files').open()
+end, { desc = "[T] mini" })
+
 map({ 'n' }, '<leader>sg', builtIn.live_grep, { desc = '[F] live grep' })
 map({ 'n' }, '<leader>sw', builtIn.grep_string, { desc = '[F] word under cursor' })
 map({ 'n' }, '<leader>sr', builtIn.oldfiles, { desc = '[F] recent files' })
@@ -76,7 +80,7 @@ map('n', '<A-Up>', ':m .-2<CR>==', { desc = 'Move line up', silent = true })
 map('n', '<A-Down>', ':m .+1<CR>==', { desc = 'Move line down', silent = true })
 map('n', 'D', '"_D')
 map('n', '<leader>e', function()
-  require('mini.files').open()
+  require('nvim-tree.api').tree.toggle()
 end, { desc = '[E]xplorer' })
 map('n', '<leader>xx', function()
   require('trouble').toggle { mode = 'diagnostics' }

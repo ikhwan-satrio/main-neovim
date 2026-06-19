@@ -1,4 +1,7 @@
+---@types vim.Lsp
 return {
+  cmd = { "rust-analyzer" },
+  filetypes = { "rust" },
   on_attach = function(_, bufnr)
     vim.keymap.set("n", "<leader>dr", function()
       vim.cmd.RustLsp("debuggables")

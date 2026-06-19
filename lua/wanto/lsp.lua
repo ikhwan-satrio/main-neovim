@@ -1,6 +1,7 @@
 vim.lsp.document_color.enable(false)
 
 vim.lsp.enable {
+  'angularls',
   'graphql',
   'zls',
   'emmet_ls',

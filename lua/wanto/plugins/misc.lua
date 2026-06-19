@@ -81,6 +81,104 @@ return {
           wrap_goto = false,
         },
       }
+
+      -- ~/.config/nvim/lua/config/mini-files-copy.lua
+      local MiniFiles = require('mini.files')
+
+      local clip_file = vim.fn.stdpath('cache') .. '/mini_files_clip.json'
+
+      local function write_clip(data)
+        local f = io.open(clip_file, 'w')
+        if f then
+          f:write(vim.json.encode(data))
+          f:close()
+        end
+      end
+
+      local function read_clip()
+        local f = io.open(clip_file, 'r')
+        if not f then return nil end
+        local content = f:read('*a')
+        f:close()
+        local ok, data = pcall(vim.json.decode, content)
+        return ok and data or nil
+      end
+
+      local function get_entry_path()
+        local cur_entry = MiniFiles.get_fs_entry()
+        return cur_entry and cur_entry.path or nil
+      end
+
+      -- Tandai file/dir untuk di-copy
+      local function mark_copy()
+        local path = get_entry_path()
+        if not path then return end
+        write_clip({ path = path, mode = 'copy' })
+        vim.notify('Copied: ' .. path)
+      end
+
+      -- Tandai file/dir untuk di-cut (move)
+      local function mark_cut()
+        local path = get_entry_path()
+        if not path then return end
+        write_clip({ path = path, mode = 'cut' })
+        vim.notify('Cut: ' .. path)
+      end
+
+      -- Paste ke direktori yang sedang dibuka di window mini.files
+      local function paste()
+        local clip = read_clip()
+        if not clip then
+          vim.notify('Clipboard kosong', vim.log.levels.WARN)
+          return
+        end
+
+        local cur_entry = MiniFiles.get_fs_entry()
+        local dest_dir
+
+        if cur_entry and cur_entry.fs_type == 'directory' then
+          dest_dir = cur_entry.path
+        elseif cur_entry then
+          -- entry adalah file -> ambil parent dir-nya
+          dest_dir = vim.fn.fnamemodify(cur_entry.path, ':h')
+        else
+          -- fallback terakhir: ambil dari nama buffer mini.files saat ini
+          local buf_name = vim.api.nvim_buf_get_name(0)
+          dest_dir = vim.fn.fnamemodify(buf_name, ':h')
+        end
+
+        if not dest_dir or dest_dir == '' then
+          vim.notify('Gagal menentukan direktori tujuan', vim.log.levels.ERROR)
+          return
+        end
+
+        local basename = vim.fn.fnamemodify(clip.path, ':t')
+        local dest_path = dest_dir .. '/' .. basename
+
+        if vim.fn.isdirectory(clip.path) == 1 then
+          vim.fn.system({ 'cp', '-r', clip.path, dest_path })
+        else
+          vim.fn.system({ 'cp', clip.path, dest_path })
+        end
+
+        if clip.mode == 'cut' then
+          vim.fn.system({ 'rm', '-rf', clip.path })
+          write_clip(nil)
+        end
+
+        MiniFiles.synchronize()
+        vim.notify('Pasted to: ' .. dest_path)
+      end
+
+      vim.api.nvim_create_autocmd('User', {
+        pattern = 'MiniFilesBufferCreate',
+        callback = function(args)
+          local buf_id = args.data.buf_id
+          vim.keymap.set('n', 'yy', mark_copy, { buffer = buf_id, desc = 'Copy file/dir' })
+          vim.keymap.set('n', 'xx', mark_cut, { buffer = buf_id, desc = 'Cut file/dir' })
+          vim.keymap.set('n', 'p', paste, { buffer = buf_id, desc = 'Paste file/dir' })
+        end,
+      })
     end
   },
   {
