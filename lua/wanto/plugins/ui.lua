@@ -636,8 +636,11 @@ return {
   -- ============================================================================
   -- COLORSCHEME
   -- ============================================================================
+  -- example lazy.nvim install setup
+  -- lua/plugins/rose-pine.lua
   {
     'catppuccin/nvim',
+    enabled = true,
     name = 'catppuccin',
     priority = 1000,
     event = "VimEnter",
