@@ -83,7 +83,10 @@ map('n', '<A-Up>', ':m .-2<CR>==', { desc = 'Move line up', silent = true })
 map('n', '<A-Down>', ':m .+1<CR>==', { desc = 'Move line down', silent = true })
 map('n', 'D', '"_D')
 map('n', '<leader>e', function()
-  require('nvim-tree.api').tree.toggle()
+  local ok, command = pcall(require, 'neo-tree.command')
+  if ok then
+    command.execute({ action = 'focus', toggle = true, source = 'filesystem' })
+  end
 end, { desc = '[E]xplorer' })
 map('n', '<leader>xx', function()
   require('trouble').toggle { mode = 'diagnostics' }
@@ -116,7 +119,19 @@ map({ "n", "v" }, "<RightMouse>", function()
 
   require("menu").open(options, { mouse = true, border = true })
 end, {})
-map({ 'n', 'i' }, '<leader>tt', ':ToggleTerm<CR>', { desc = "[T] term" })
+
+vim.keymap.set("n", "<leader>tt", function()
+  require("tabterm").toggle()
+end, { desc = "Toggle tabterm" })
+
+vim.keymap.set("n", "<leader>tn", function()
+  require("tabterm").new_shell()
+end, { desc = "New tabterm shell" })
+
+vim.keymap.set("n", "<leader>tc", function()
+  require("tabterm").new_command()
+end, { desc = "New tabterm command" })
+
 map({ 'n', 'v' }, 'd', '"_d')
 map({ 'n', 'i', 'v' }, '<C-s>', function()
   if vim.bo.modified then

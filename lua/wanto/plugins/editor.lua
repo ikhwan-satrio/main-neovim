@@ -1,4 +1,5 @@
 return {
+
   {
     'barelief/buftyper.nvim',
     config = function()
@@ -195,20 +196,8 @@ return {
   -- TERMINAL
   -- ============================================================================
   {
-    'akinsho/toggleterm.nvim',
-    cmd = 'ToggleTerm',
-    event = 'VeryLazy',
-    config = function()
-      require('toggleterm').setup {
-        open_mapping = [[<leader>tt]],
-        direction = 'float', -- floating window
-        float_opts = {
-          border = 'curved',
-          winblend = 0,
-        },
-        shade_terminals = true,
-      }
-    end
+    "kremovtort/tabterm.nvim",
+    config = function() end
   },
 
   -- ============================================================================
