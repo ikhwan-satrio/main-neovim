@@ -6,7 +6,7 @@ vim.lsp.enable {
   'zls',
   'emmet_ls',
   'protols',
-  'kotlin_language_server',
+  'kotlin-lsp',
   'rust-analyzer',
   'jdtls',
   'hyprls',

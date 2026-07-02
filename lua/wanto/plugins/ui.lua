@@ -578,15 +578,48 @@ return {
     event = 'VeryLazy',
     config = function()
       local notify = require('notify')
+      local stages_util = require('notify.stages.util')
+      local direction = stages_util.DIRECTION.BOTTOM_UP
+
       notify.setup({
-        stages = 'slide',
+        merge_duplicates = true,
+        stages = {
+          function(state)
+            local next_height = state.message.height - 2
+            local next_row = stages_util.available_slot(state.open_windows, next_height, direction)
+            if not next_row then
+              return nil
+            end
+            return {
+              relative = 'editor',
+              anchor = 'SW',
+              width = state.message.width,
+              height = state.message.height,
+              col = 0,
+              row = next_row,
+              border = 'single',
+              style = 'minimal',
+              opacity = 0,
+            }
+          end,
+          function(state, win)
+            return {
+              opacity = { 100 },
+              col = { 0 },
+            }
+          end,
+          function(state, win)
+            return {
+              time = true,
+            }
+          end,
+        },
         timeout = 3000,
         background_colour = '#000000',
         render = 'compact',
-        position = 'top_left', -- Pastikan ada spasi, bukan "top_left"
       })
-      vim.notify = notify
 
+      vim.notify = notify
       -- Load telescope extension
       pcall(require('telescope').load_extension, 'notify')
     end
@@ -647,6 +680,7 @@ return {
     config = function()
       vim.api.nvim_set_hl(0, "CursorLine", { bg = "NONE" })
       vim.api.nvim_set_hl(0, "CursorLineNr", { bg = "NONE", fg = "#cba6f7", bold = true }) -- optional, biar nomor baris tetap keliatan
+
       require('catppuccin').setup {
         flavour = 'mocha',
         transparent_background = true,

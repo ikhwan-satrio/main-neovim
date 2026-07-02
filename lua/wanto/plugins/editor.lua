@@ -1,5 +1,4 @@
 return {
-
   {
     'barelief/buftyper.nvim',
     config = function()
@@ -9,36 +8,64 @@ return {
       })
     end
   },
+  {
+    "ariedov/android-nvim",
+    config = function()
+      require('android-nvim').setup()
+    end
+  },
+  {
+    "AlexandrosAlexiou/kotlin.nvim",
+    ft = { "kotlin" },
+    dependencies = {
+      "mason-org/mason-lspconfig.nvim",
+    },
+    config = function()
+      require("kotlin").setup {
+        root_markers = {
+          "gradlew",
+          ".git",
+          "mvnw",
+          "settings.gradle",
+        },
 
+        jre_path = nil,
+
+        jdk_for_symbol_resolution = nil,
+
+        jvm_args = {
+          "-Xmx4g",
+        },
+
+        inlay_hints = {
+          enabled = true,
+          parameters = true,
+          parameters_compiled = true,
+          parameters_excluded = false,
+          types_property = true,
+          types_variable = true,
+          function_return = true,
+          function_parameter = true,
+          lambda_return = true,
+          lambda_receivers_parameters = true,
+          value_ranges = true,
+          kotlin_time = true,
+        },
+        folding = { enabled = true },
+      }
+    end,
+  },
   {
     "Owen-Dechow/videre.nvim",
     cmd = "Videre",
     dependencies = {
-      "Owen-Dechow/graph_view_yaml_parser", -- Optional: add YAML support
-      "Owen-Dechow/graph_view_toml_parser", -- Optional: add TOML support
-      "a-usr/xml2lua.nvim",                 -- Optional | Experimental: add XML support
+      "Owen-Dechow/graph_view_yaml_parser",
+      "Owen-Dechow/graph_view_toml_parser",
+      "a-usr/xml2lua.nvim",
     },
     opts = {
       box_style = "sharp",
     }
-  },
-
-  {
-    "Saecki/crates.nvim",
-    event = { "BufRead Cargo.toml" },
-    opts = {
-      completion = {
-        crates = {
-          enabled = true,
-        },
-      },
-      lsp = {
-        enabled = true,
-        actions = true,
-        completion = true,
-        hover = true,
-      },
-    },
   },
 
   {
@@ -94,8 +121,9 @@ return {
         source_selector = {
           winbar = true,
           statusline = false,
+          truncation_character = "...",
           tabs = {
-            { source = 'filesystem', display_name = ' 󰉋 Files ', },
+            { source = 'filesystem', display_name = ' 󰉋 Files ' },
             { source = 'buffers', display_name = ' 󰈚 Buffers ' },
             { source = 'git_status', display_name = ' 󰊢 Git ' },
           },
@@ -130,19 +158,6 @@ return {
       }
     end,
   },
-
-  -- {
-  --   "antosha417/nvim-lsp-file-operations",
-  --   dependencies = { "nvim-lua/plenary.nvim" },
-  --   config = function()
-  --     require("lsp-file-operations").setup({
-  --       operations = {
-  --         willRenameFiles = true,
-  --         didRenameFiles = true,
-  --       },
-  --     })
-  --   end,
-  -- },
 
   -- ============================================================================
   -- TREESITTER

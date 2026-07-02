@@ -8,11 +8,10 @@ return {
       },
       diagnostics = {
         -- Tambahkan 'hl' ke globals agar tidak dianggap undefined
-        globals = { "vim", "hl" },
+        globals = { "vim", "hl", "love" },
       },
       workspace = {
-        -- Ambil runtime files Neovim, lalu tambahkan direktori stub Hyprland
-        library = vim.api.nvim_get_runtime_file("", true), -- load semua runtime Neovim
+        library = vim.api.nvim_get_runtime_file("", true),
         checkThirdParty = false,
       },
       telemetry = {
