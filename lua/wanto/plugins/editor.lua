@@ -82,7 +82,7 @@ return {
     opts = {
       features = {
         pickers = {
-          provider = "telescope", -- "snacks | telescope | fzf-lua | ui-select"
+          provider = "telescope",
         },
       },
     },
@@ -121,7 +121,7 @@ return {
         source_selector = {
           winbar = true,
           statusline = false,
-          truncation_character = "...",
+          truncation_character = " ",
           tabs = {
             { source = 'filesystem', display_name = ' 󰉋 Files ' },
             { source = 'buffers', display_name = ' 󰈚 Buffers ' },
@@ -145,6 +145,12 @@ return {
           },
         },
         filesystem = {
+          window = {
+            mappings = {
+              ["d"] = "trash",  -- ganti delete jadi trash bawaan
+              ["D"] = "delete", -- opsional: tetap simpan delete permanen di key lain, kalau perlu
+            },
+          },
           follow_current_file = {
             enabled = true,
           },
