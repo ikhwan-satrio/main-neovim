@@ -470,10 +470,10 @@ return {
             },
 
             -- Copilot pill
-            {
-              copilot_status,
-              color = { bg = "NONE" },
-            },
+            -- {
+            --   copilot_status,
+            --   color = { bg = "NONE" },
+            -- },
             -- LSP pill
             {
               lsp_names,
