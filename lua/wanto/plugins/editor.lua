@@ -8,12 +8,14 @@ return {
       })
     end
   },
+
   {
     "ariedov/android-nvim",
     config = function()
       require('android-nvim').setup()
     end
   },
+
   {
     "AlexandrosAlexiou/kotlin.nvim",
     ft = { "kotlin" },
@@ -55,6 +57,7 @@ return {
       }
     end,
   },
+
   {
     "Owen-Dechow/videre.nvim",
     cmd = "Videre",
@@ -86,6 +89,19 @@ return {
         },
       },
     },
+  },
+
+  {
+    "swaits/zellij-nav.nvim",
+    lazy = true,
+    event = "VeryLazy",
+    keys = {
+      { "<c-h>", "<cmd>ZellijNavigateLeftTab<cr>",  { silent = true, desc = "navigate left or tab" } },
+      { "<c-j>", "<cmd>ZellijNavigateDown<cr>",     { silent = true, desc = "navigate down" } },
+      { "<c-k>", "<cmd>ZellijNavigateUp<cr>",       { silent = true, desc = "navigate up" } },
+      { "<c-l>", "<cmd>ZellijNavigateRightTab<cr>", { silent = true, desc = "navigate right or tab" } },
+    },
+    opts = {},
   },
 
   {
