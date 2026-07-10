@@ -507,7 +507,17 @@ return {
   -- ============================================================================
   {
     "bnrobinson93/jj-signs.nvim",
-    event = { "BufReadPre", "BufNewFile" },
+    event = { "BufReadPost", "BufNewFile", "InsertEnter" },
+    init = function()
+      vim.api.nvim_create_autocmd("BufEnter", {
+        callback = function()
+          local jj_signs = require("jj-signs")
+          if not jj_signs.is_attached() then
+            jj_signs.attach()
+          end
+        end,
+      })
+    end,
     config = function()
       local jj_signs = require("jj-signs")
 
@@ -529,11 +539,39 @@ return {
         max_file_length = 40000,
         sign_priority = 6,
         use_decoration_provider = true,
-        current_line_blame = false,
+        jj_cmd = "jj",
+        status_formatter = function(d)
+          local parts = {}
+          if (d.added or 0) > 0 then parts[#parts + 1] = "+" .. d.added end
+          if (d.changed or 0) > 0 then parts[#parts + 1] = "~" .. d.changed end
+          if (d.removed or 0) > 0 then parts[#parts + 1] = "-" .. d.removed end
+          return table.concat(parts, " ")
+        end,
+        preview_config = {
+          border = "rounded",
+          style = "minimal",
+          relative = "cursor",
+          row = 1,
+          col = 0,
+        },
+        nav = {
+          wrap = true,
+          navigation_message = true,
+          foldopen = true,
+          preview = false,
+        },
+        diff_opts = {
+          algorithm = "myers",
+          indent_heuristic = true,
+          linematch = 60,
+          ignore_whitespace = false,
+          ignore_whitespace_change = false,
+        },
+        current_line_blame = true,
         current_line_blame_opts = {
           virt_text = true,
           virt_text_pos = "eol",
-          delay = 1000,
+          delay = 500,
           format = "‹ %s • %a • %r",
         },
       })
