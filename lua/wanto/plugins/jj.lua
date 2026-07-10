@@ -179,7 +179,7 @@ return {
       -- jj log picker
       map("n", "<leader>jl", function()
         jj_cmd(
-        " log --no-graph -T 'change_id.short(8) ++ \"|\" ++ author.name() ++ \"|\" ++ description.first_line()' --limit 50",
+          " log --no-graph -T 'change_id.short(8) ++ \"|\" ++ author.name() ++ \"|\" ++ description.first_line()' --limit 50",
           function(stdout)
             if stdout == "" then return end
             local entries = {}
@@ -296,8 +296,8 @@ return {
         local file = vim.fn.expand("%:p")
         if file == "" then return end
         jj_cmd(
-        " log --no-graph -r 'file(\"" ..
-        file .. "\")' -T 'change_id.short(8) ++ \"|\" ++ author.name() ++ \"|\" ++ description.first_line()'",
+          " log --no-graph -r 'file(\"" ..
+          file .. "\")' -T 'change_id.short(8) ++ \"|\" ++ author.name() ++ \"|\" ++ description.first_line()'",
           function(stdout)
             if stdout == "" then
               vim.notify("Tidak ada riwayat untuk file ini", vim.log.levels.WARN)
@@ -456,7 +456,7 @@ return {
       -- jj operation log picker
       map("n", "<leader>go", function()
         jj_cmd(
-        " op log --no-graph -T 'id.short(8) ++ \"|\" ++ description ++ \"|\" ++ time.format_utc(\"%Y-%m-%d %H:%M:%S\")'",
+          " op log --no-graph -T 'id.short(8) ++ \"|\" ++ description ++ \"|\" ++ time.format_utc(\"%Y-%m-%d %H:%M:%S\")'",
           function(stdout)
             if stdout == "" then return end
             local entries = {}
@@ -510,11 +510,12 @@ return {
     event = { "BufReadPost", "BufNewFile", "InsertEnter" },
     init = function()
       vim.api.nvim_create_autocmd("BufEnter", {
-        callback = function()
-          local jj_signs = require("jj-signs")
-          if not jj_signs.is_attached() then
-            jj_signs.attach()
+        pattern = "*",
+        callback = function(args)
+          if vim.bo[args.buf].buftype ~= "" then
+            return
           end
+          require("jj-signs").attach(args.buf)
         end,
       })
     end,
