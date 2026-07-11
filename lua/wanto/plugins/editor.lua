@@ -10,6 +10,22 @@ return {
   },
 
   {
+    '2kabhishek/nerdy.nvim',
+    dependencies = {
+    },
+    cmd = 'Nerdy',
+    opts = {
+      max_recents = 30,          -- Configure recent icons limit
+      copy_to_clipboard = false, -- Copy glyph to clipboard instead of inserting
+      copy_register = '+',       -- Register to use for copying (if `copy_to_clipboard` is true)
+    },
+    keys = {
+      { '<leader>sin', '<cmd>Nerdy list<CR>',    desc = "Browse nerd icons" },
+      { '<leader>siN', '<cmd>Nerdy recents<CR>', desc = "Browse recent nerd icons" },
+    },
+  },
+
+  {
     "ariedov/android-nvim",
     config = function()
       require('android-nvim').setup()
