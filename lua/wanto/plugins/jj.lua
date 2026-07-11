@@ -168,8 +168,12 @@ return {
       local actions = require("telescope.actions")
       local action_state = require("telescope.actions.state")
 
-      local function jj_cmd(args, callback)
-        vim.system({ "jj" .. args }, { text = true }, function(out)
+      -- jj_cmd SELALU terima tabel argumen (bukan string), supaya tidak perlu
+      -- parsing string yang gampang salah (spasi di dalam quote, dsb).
+      local function jj_cmd(args_table, callback)
+        local cmd = { "jj" }
+        vim.list_extend(cmd, args_table)
+        vim.system(cmd, { text = true }, function(out)
           vim.schedule(function()
             callback(out.stdout or "", out.stderr or "")
           end)
@@ -178,8 +182,11 @@ return {
 
       -- jj log picker
       map("n", "<leader>jl", function()
-        jj_cmd(
-          " log --no-graph -T 'change_id.short(8) ++ \"|\" ++ author.name() ++ \"|\" ++ description.first_line()' --limit 50",
+        jj_cmd({
+            "log", "--no-graph",
+            "-T", 'change_id.short(8) ++ "|" ++ author.name() ++ "|" ++ description.first_line()',
+            "--limit", "50",
+          },
           function(stdout)
             if stdout == "" then return end
             local entries = {}
@@ -226,7 +233,10 @@ return {
 
       -- jj log (all revisions)
       map("n", "<leader>jL", function()
-        jj_cmd(" log --no-graph -T 'change_id.short(8) ++ \"|\" ++ author.name() ++ \"|\" ++ description.first_line()'",
+        jj_cmd({
+            "log", "--no-graph",
+            "-T", 'change_id.short(8) ++ "|" ++ author.name() ++ "|" ++ description.first_line()',
+          },
           function(stdout)
             if stdout == "" then return end
             local entries = {}
@@ -295,9 +305,11 @@ return {
       map("n", "<leader>jgh", function()
         local file = vim.fn.expand("%:p")
         if file == "" then return end
-        jj_cmd(
-          " log --no-graph -r 'file(\"" ..
-          file .. "\")' -T 'change_id.short(8) ++ \"|\" ++ author.name() ++ \"|\" ++ description.first_line()'",
+        jj_cmd({
+            "log", "--no-graph",
+            "-r", 'file("' .. file .. '")',
+            "-T", 'change_id.short(8) ++ "|" ++ author.name() ++ "|" ++ description.first_line()',
+          },
           function(stdout)
             if stdout == "" then
               vim.notify("Tidak ada riwayat untuk file ini", vim.log.levels.WARN)
@@ -357,7 +369,7 @@ return {
 
       -- jj bookmarks picker
       map("n", "<leader>gB", function()
-        jj_cmd(" bookmark list --no-graph -T 'name ++ \"|\" ++ change_id.short(8)'", function(stdout)
+        jj_cmd({ "bookmark", "list", "--no-graph", "-T", 'name ++ "|" ++ change_id.short(8)' }, function(stdout)
           if stdout == "" then
             vim.notify("Tidak ada bookmark", vim.log.levels.WARN)
             return
@@ -406,7 +418,7 @@ return {
 
       -- jj tags picker
       map("n", "<leader>gT", function()
-        jj_cmd(" tag list --no-graph -T 'name ++ \"|\" ++ change_id.short(8)'", function(stdout)
+        jj_cmd({ "tag", "list", "--no-graph", "-T", 'name ++ "|" ++ change_id.short(8)' }, function(stdout)
           if stdout == "" then
             vim.notify("Tidak ada tag", vim.log.levels.WARN)
             return
@@ -455,8 +467,10 @@ return {
 
       -- jj operation log picker
       map("n", "<leader>go", function()
-        jj_cmd(
-          " op log --no-graph -T 'id.short(8) ++ \"|\" ++ description ++ \"|\" ++ time.format_utc(\"%Y-%m-%d %H:%M:%S\")'",
+        jj_cmd({
+            "op", "log", "--no-graph",
+            "-T", 'id.short(8) ++ "|" ++ description ++ "|" ++ time.format_utc("%Y-%m-%d %H:%M:%S")',
+          },
           function(stdout)
             if stdout == "" then return end
             local entries = {}

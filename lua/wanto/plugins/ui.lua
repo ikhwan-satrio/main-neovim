@@ -634,6 +634,12 @@ return {
     },
     config = function()
       require('noice').setup {
+        routes = {
+          {
+            filter = { event = "notify" },
+            view = "notify", -- atau ganti "notify" jadi native, nggak lewat nui render kompleks
+          },
+        },
         lsp = {
           progress = { enabled = true },
           override = {
@@ -733,10 +739,10 @@ return {
     opts = {
       preset = 'modern',
       spec = {
-        { '<leader>s', group = 'search' },
-        { '<leader>g', group = 'git/jj' },
-        { '<leader>l', group = 'lsp' },
-        { '<leader>j', group = 'jj' },
+        { '<leader>s',  group = 'search' },
+        { '<leader>g',  group = 'git/jj' },
+        { '<leader>l',  group = 'lsp' },
+        { '<leader>j',  group = 'jj' },
         { '<leader>jd', desc = 'JJ describe' },
         { '<leader>je', desc = 'JJ edit' },
         { '<leader>jn', desc = 'JJ new' },
@@ -750,8 +756,8 @@ return {
         { '<leader>jp', desc = 'JJ push' },
         { '<leader>jb', group = 'jj bookmark' },
         { '<leader>jt', group = 'jj tag' },
-        { '<leader>d', group = 'diff' },
-        { '<leader>h', group = 'hunk/signs' },
+        { '<leader>d',  group = 'diff' },
+        { '<leader>h',  group = 'hunk/signs' },
         { '<leader>dv', desc = 'JJ diff vertical' },
         { '<leader>dh', desc = 'JJ diff horizontal' },
         { '<leader>do', desc = 'Diffview open' },

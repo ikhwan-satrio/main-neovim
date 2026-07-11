@@ -9,6 +9,7 @@
   "conform.nvim": { "branch": "master", "commit": "619363c30309d29ffa631e67c8183f2a72caa373" },
   "cord.nvim": { "branch": "master", "commit": "b08b9245d2973eda91437d2de5c8746b9f510d31" },
   "diffview.nvim": { "branch": "main", "commit": "4516612fe98ff56ae0415a259ff6361a89419b0a" },
+  "dropbar.nvim": { "branch": "master", "commit": "808ba31cde89aec8833e9789f5e04557cd31c9e1" },
   "graph_view_toml_parser": { "branch": "main", "commit": "e52ddcbae563c924a19faf998f862ae61d13a777" },
   "graph_view_yaml_parser": { "branch": "master", "commit": "ecc5ba0a0b8c3a6eb3e7fa5a2caeeee2263729c3" },
   "hlchunk.nvim": { "branch": "main", "commit": "06f51922ca43d5cdacf96725c106405fe064c59e" },
