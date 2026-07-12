@@ -3,6 +3,8 @@ vim.lsp.document_color.enable(false)
 vim.lsp.enable {
   -- 'angularls',
   'graphql',
+  'ols',
+  'taplo',
   'zls',
   'emmet_ls',
   'protols',

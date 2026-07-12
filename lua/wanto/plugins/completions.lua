@@ -1,4 +1,3 @@
-
 return {
   -- ============================================================================
   -- LSP
@@ -46,7 +45,7 @@ return {
         'svelte-language-server',
         'astro-language-server',
         'vue-language-server',
-        'copilot-language-server',
+        'taplo'
       },
       auto_install = true,
       run_on_start = true,
