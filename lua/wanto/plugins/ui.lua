@@ -6,11 +6,17 @@ return {
     'nvim-telescope/telescope.nvim',
     dependencies = {
       'nvim-lua/plenary.nvim',
+      { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+      'nvim-telescope/telescope-ui-select.nvim',
+      'nvim-telescope/telescope-project.nvim',
+      'debugloop/telescope-undo.nvim',
+      { 'isak102/telescope-git-file-history.nvim',  dependencies = { 'tpope/vim-fugitive' } },
     },
     cmd = 'Telescope',
     config = function()
       local telescope = require('telescope')
       local colors = require("catppuccin.palettes").get_palette()
+      local project_actions = require("telescope._extensions.project.actions")
 
       local TelescopeColor = {
         TelescopeMatching = { fg = colors.flamingo },
@@ -43,60 +49,21 @@ return {
           },
         },
         extensions = {
-          -- extensions will be configured by their own specs
-        }
-      }
-    end
-  },
-
-  -- venv selector
-  {
-    "linux-cultist/venv-selector.nvim",
-    ft = "python",                              -- Load when opening Python files
-    keys = { { ",v", "<cmd>VenvSelect<cr>" } }, -- Open picker on keymap
-    opts = {
-      options = {},                             -- plugin-wide options
-      search = {}                               -- custom search definitions
-    },
-  },
-
-
-  -- UI Select
-  {
-    'nvim-telescope/telescope-ui-select.nvim',
-    config = function()
-      require('telescope').setup {
-        extensions = {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown()
-          }
-        }
-      }
-      pcall(require('telescope').load_extension, 'ui-select')
-    end
-  },
-
-  -- Project Management
-  {
-    'nvim-telescope/telescope-project.nvim',
-    config = function()
-      local project_actions = require("telescope._extensions.project.actions")
-      require('telescope').setup {
-        extensions = {
+          },
           project = {
             base_dirs = {
               '~/projects',
             },
-            ignore_missing_dirs = true, -- default: false
-            hidden_files = true,        -- default: false
+            ignore_missing_dirs = true,
+            hidden_files = true,
             theme = "dropdown",
             order_by = "asc",
             search_by = "title",
-            sync_with_nvim_tree = true, -- default false
+            sync_with_nvim_tree = true,
             on_project_selected = function(prompt_bufnr)
-              -- Do anything you want in here. For example:
               project_actions.change_working_directory(prompt_bufnr, false)
-              require("harpoon.ui").nav_file(1)
             end,
             mappings = {
               n = {
@@ -124,44 +91,30 @@ return {
                 ['<c-o>'] = project_actions.next_cd_scope,
               }
             }
-          }
-        }
-      }
-      pcall(require('telescope').load_extension, 'project')
-    end
-  },
-
-  -- Undo Tree
-  {
-    'debugloop/telescope-undo.nvim',
-    config = function()
-      require('telescope').setup {
-        extensions = {
+          },
           undo = {
             side_by_side = true,
-          }
+          },
         }
       }
-      pcall(require('telescope').load_extension, 'undo')
+
+      pcall(telescope.load_extension, 'fzf')
+      pcall(telescope.load_extension, 'ui-select')
+      pcall(telescope.load_extension, 'project')
+      pcall(telescope.load_extension, 'undo')
+      pcall(telescope.load_extension, 'git_file_history')
     end
   },
 
-  -- FZF Native
+  -- venv selector
   {
-    'nvim-telescope/telescope-fzf-native.nvim',
-    build = 'make',
-    config = function()
-      pcall(require('telescope').load_extension, 'fzf')
-    end
-  },
-
-  -- Git File History
-  {
-    'isak102/telescope-git-file-history.nvim',
-    dependencies = { 'tpope/vim-fugitive' },
-    config = function()
-      pcall(require('telescope').load_extension, 'git_file_history')
-    end
+    "linux-cultist/venv-selector.nvim",
+    ft = "python",
+    keys = { { ",v", "<cmd>VenvSelect<cr>" } },
+    opts = {
+      options = {},
+      search = {}
+    },
   },
 
   -- ============================================================================
@@ -169,6 +122,7 @@ return {
   -- ============================================================================
   {
     'nvim-lualine/lualine.nvim',
+    event = 'VimEnter',
     config = function()
       local colors = {
         rosewater = "#f5e0dc",
@@ -229,39 +183,6 @@ return {
       }
 
       local _net_cache = { status = nil, last_check = 0 }
-
-      -- Copilot status component
-      local function copilot_status()
-        local now = os.time()
-        -- cek ulang setiap 10 detik
-        if now - _net_cache.last_check > 10 then
-          local result          = os.execute('ping -c 1 -W 1 8.8.8.8 > /dev/null 2>&1')
-          _net_cache.status     = (result == 0)
-          _net_cache.last_check = now
-        end
-
-
-        local ok, clients = pcall(vim.lsp.get_clients, { name = "copilot", bufnr = 0 })
-        if not ok or #clients == 0 then return "" end
-
-        local copilot_loaded = package.loaded["copilot"]
-        if not copilot_loaded then return "" end
-
-        local status_ok, status_data = pcall(function()
-          return require("copilot.status").data.status
-        end)
-        if not status_ok then return "" end
-
-        if status_data == "InProgress" then
-          return "%#CopilotProgress# 󰚩 Copilot%*"
-        elseif status_data == "Warning" then
-          return "%#CopilotWarning#  Copilot%*"
-        elseif not _net_cache.status then
-          return "%#NetworkOffline# 󰖪 OFFLINE%*"
-        else
-          return "%#CopilotOk# 󰊤 Copilot%*"
-        end
-      end
 
       -- LSP names component
       local function lsp_names()
@@ -527,6 +448,7 @@ return {
 
   {
     'akinsho/bufferline.nvim',
+    event = 'VimEnter',
     config = function()
       require('bufferline').setup {
         -- Catppuccin integration

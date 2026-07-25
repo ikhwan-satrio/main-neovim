@@ -137,7 +137,7 @@ return {
           },
         },
         fuzzy = {
-          implementation = 'lua',
+          implementation = 'prefer_rust',
         },
         signature = { enabled = true },
       }

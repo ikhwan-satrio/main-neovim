@@ -7,6 +7,7 @@ return {
   },
   {
     "smjonas/inc-rename.nvim",
+    event = 'CmdlineEnter',
     opts = {}
   },
   { "nvzone/volt", lazy = true },
@@ -35,8 +36,14 @@ return {
     config = function()
       require('mini.icons').mock_nvim_web_devicons()
       require('mini.bufremove').setup()
-      -- require('mini.indentscope').setup()
-      require('mini.pairs').setup()
+
+      -- Defer mini.pairs to InsertEnter for faster startup
+      vim.api.nvim_create_autocmd('InsertEnter', {
+        once = true,
+        callback = function()
+          require('mini.pairs').setup()
+        end,
+      })
       -- require('mini.diff').setup {
       --   -- View settings (equivalent to signs)
       --   view = {
@@ -183,6 +190,7 @@ return {
   },
   {
     'windwp/nvim-ts-autotag',
+    event = { 'BufReadPre', 'BufNewFile' },
     dependencies = { 'nvim-treesitter/nvim-treesitter' },
     config = function()
       require('nvim-ts-autotag').setup({

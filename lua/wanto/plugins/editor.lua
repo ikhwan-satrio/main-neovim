@@ -1,6 +1,7 @@
 return {
   {
     'barelief/buftyper.nvim',
+    event = 'VimEnter',
     config = function()
       require('buftyper').setup({
         show_wpm = true,
@@ -11,6 +12,7 @@ return {
 
   {
     'Bekaboo/dropbar.nvim',
+    event = { 'BufReadPre', 'BufNewFile' },
     -- optional, but required for fuzzy finder support
     dependencies = {
       'nvim-telescope/telescope-fzf-native.nvim',
@@ -42,6 +44,7 @@ return {
 
   {
     "ariedov/android-nvim",
+    ft = { "kotlin", "java" },
     config = function()
       require('android-nvim').setup()
     end
@@ -137,6 +140,7 @@ return {
 
   {
     "3rd/image.nvim",
+    event = { 'BufReadPre', 'BufNewFile' },
     config = function()
       require("image").setup {
         render = {
@@ -265,6 +269,12 @@ return {
   -- ============================================================================
   {
     "kremovtort/tabterm.nvim",
+    cmd = { "TabTermToggle", "TabTermNew", "TabTermNewCommand" },
+    keys = {
+      { "<leader>tt", function() require("tabterm").toggle() end, desc = "Toggle tabterm" },
+      { "<leader>tn", function() require("tabterm").new_shell() end, desc = "New tabterm shell" },
+      { "<leader>tc", function() require("tabterm").new_command() end, desc = "New tabterm command" },
+    },
     config = function() end
   },
 
@@ -304,6 +314,7 @@ return {
   -- ============================================================================
   {
     'OXY2DEV/markview.nvim',
+    ft = { 'markdown', 'Avante' },
     dependencies = {
       'nvim-treesitter/nvim-treesitter',
     },
