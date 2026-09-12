@@ -43,53 +43,21 @@ return {
   },
 
   {
-    "ariedov/android-nvim",
-    ft = { "kotlin", "java" },
-    config = function()
-      require('android-nvim').setup()
-    end
-  },
-
-  {
-    "AlexandrosAlexiou/kotlin.nvim",
-    ft = { "kotlin" },
-    dependencies = {
-      "mason-org/mason-lspconfig.nvim",
-    },
-    config = function()
-      require("kotlin").setup {
-        root_markers = {
-          "gradlew",
-          ".git",
-          "mvnw",
-          "settings.gradle",
-        },
-
-        jre_path = nil,
-
-        jdk_for_symbol_resolution = nil,
-
-        jvm_args = {
-          "-Xmx4g",
-        },
-
-        inlay_hints = {
+    "Saecki/crates.nvim",
+    event = { "BufRead Cargo.toml" },
+    opts = {
+      completion = {
+        crates = {
           enabled = true,
-          parameters = true,
-          parameters_compiled = true,
-          parameters_excluded = false,
-          types_property = true,
-          types_variable = true,
-          function_return = true,
-          function_parameter = true,
-          lambda_return = true,
-          lambda_receivers_parameters = true,
-          value_ranges = true,
-          kotlin_time = true,
         },
-        folding = { enabled = true },
-      }
-    end,
+      },
+      lsp = {
+        enabled = true,
+        actions = true,
+        completion = true,
+        hover = true,
+      },
+    },
   },
 
   {
@@ -271,8 +239,8 @@ return {
     "kremovtort/tabterm.nvim",
     cmd = { "TabTermToggle", "TabTermNew", "TabTermNewCommand" },
     keys = {
-      { "<leader>tt", function() require("tabterm").toggle() end, desc = "Toggle tabterm" },
-      { "<leader>tn", function() require("tabterm").new_shell() end, desc = "New tabterm shell" },
+      { "<leader>tt", function() require("tabterm").toggle() end,      desc = "Toggle tabterm" },
+      { "<leader>tn", function() require("tabterm").new_shell() end,   desc = "New tabterm shell" },
       { "<leader>tc", function() require("tabterm").new_command() end, desc = "New tabterm command" },
     },
     config = function() end
