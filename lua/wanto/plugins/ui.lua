@@ -15,8 +15,8 @@ return {
     cmd = 'Telescope',
     config = function()
       local telescope = require('telescope')
-      local colors = require("catppuccin.palettes").get_palette()
       local project_actions = require("telescope._extensions.project.actions")
+      local colors = require("catppuccin.palettes").get_palette()
 
       local TelescopeColor = {
         TelescopeMatching = { fg = colors.flamingo },

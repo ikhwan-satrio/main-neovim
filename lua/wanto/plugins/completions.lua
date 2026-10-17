@@ -164,6 +164,7 @@ return {
       require('conform').setup {
         formatters_by_ft = {
           vue = { "prettier" },
+          python = { "ruff_format" },
         },
         -- format_on_save = {
         --   -- These options will be passed to conform.format()

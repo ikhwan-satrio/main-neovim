@@ -1,7 +1,8 @@
 return {
   "yuukiflow/Arduino-Nvim",
+  ft = "arduino",
   opts = {
-    use_default_keymaps = true,  -- tetap load keymap bawaan (<Leader>ac, au, dst)
+    use_default_keymaps = true, -- tetap load keymap bawaan (<Leader>ac, au, dst)
     use_default_commands = true,
     picker_backend = "telescope",
     keymaps = {

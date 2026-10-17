@@ -1,6 +1,8 @@
 -- keymaps
 local map = vim.keymap.set
 
+map("v", "<leader>cn", ":CarbonNow<CR>", { silent = true })
+
 -- Telescope (lazy require: only loaded when keymap is triggered)
 map({ 'n' }, '<leader>sf', function() require('telescope.builtin').find_files() end, { desc = '[F] files' })
 map({ 'n' }, '<leader>sd', function() require('telescope.builtin').diagnostics() end, { desc = '[F] diagnostic' })
