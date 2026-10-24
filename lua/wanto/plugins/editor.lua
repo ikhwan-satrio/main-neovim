@@ -82,23 +82,22 @@ return {
   },
 
   {
-    "adalessa/laravel.nvim",
-    dependencies = {
-      "MunifTanjim/nui.nvim",
-      "nvim-lua/plenary.nvim",
-      "nvim-neotest/nvim-nio",
+    "MuazTPM-YT/leetvim.nvim",
+    name = "leetvim",
+    cmd = { "LeetvimTemplate", "LeetvimAuth" },
+    keys = {
+      { "<leader>lt", ":LeetvimTemplate ", desc = "LeetVim Template" },
+      { "<leader>la", ":LeetvimAuth<cr>",  desc = "LeetCode Auth" },
     },
-    ft = { "php", "blade" },
-    event = {
-      "BufEnter composer.json",
-    },
-    opts = {
-      features = {
-        pickers = {
-          provider = "telescope",
-        },
-      },
-    },
+    config = function()
+      require("leetvim").setup({
+        base_dir = vim.fn.expand("~/leetcode"),
+        filename_pattern = "{number:03d}-{slug}.{ext}",
+        include_test_stub = true,
+        default_language = "python",
+        create_subdirs = false,
+      })
+    end,
   },
 
   {
