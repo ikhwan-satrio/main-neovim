@@ -10,22 +10,6 @@ return {
     event = 'CmdlineEnter',
     opts = {}
   },
-  { "nvzone/volt", lazy = true },
-  { "nvzone/menu", lazy = true },
-  {
-    "nvzone/minty",
-    cmd = { "Shades", "Huefy" },
-    config = function()
-      require('minty').setup({
-        huefy = {
-          border = true
-        },
-        shades = {
-          border = true
-        }
-      })
-    end
-  },
   { 'nvim-lua/plenary.nvim', lazy = true },
   { 'MunifTanjim/nui.nvim',  lazy = true },
   { 'tpope/vim-fugitive',    cmd = 'Git' },
@@ -44,52 +28,6 @@ return {
           require('mini.pairs').setup()
         end,
       })
-      -- require('mini.diff').setup {
-      --   -- View settings (equivalent to signs)
-      --   view = {
-      --     style = 'sign', -- 'sign' | 'number' | 'none'
-      --     signs = {
-      --       add = '┃',
-      --       change = '┃',
-      --       delete = '_',
-      --     },
-      --     priority = 6, -- sign_priority
-      --   },
-      --
-      --   -- Source settings
-      --   source = nil, -- Default auto-detect git
-      --
-      --   -- Delay for update (equivalent to update_debounce)
-      --   delay = {
-      --     text_change = 100, -- update_debounce
-      --   },
-      --
-      --   -- Mappings
-      --   mappings = {
-      --     -- Apply hunks
-      --     apply = 'gh',
-      --     reset = 'gH',
-      --
-      --     -- Hunk text object
-      --     textobject = 'gh',
-      --
-      --     -- Navigate hunks
-      --     goto_first = '[H',
-      --     goto_prev = '[h',
-      --     goto_next = ']h',
-      --     goto_last = ']H',
-      --   },
-      --
-      --   -- Options
-      --   options = {
-      --     algorithm = 'histogram', -- 'myers' | 'minimal' | 'patience' | 'histogram'
-      --     indent_heuristic = true,
-      --     linematch = 60,          -- Performance optimization
-      --     wrap_goto = false,
-      --   },
-      -- }
-
-      -- ~/.config/nvim/lua/config/mini-files-copy.lua
       local MiniFiles = require('mini.files')
 
       local clip_file = vim.fn.stdpath('cache') .. '/mini_files_clip.json'

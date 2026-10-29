@@ -8,17 +8,6 @@ return {
   },
 
   {
-    'barelief/buftyper.nvim',
-    event = 'VimEnter',
-    config = function()
-      require('buftyper').setup({
-        show_wpm = true,
-        show_mode_indicator = false,
-      })
-    end
-  },
-
-  {
     'Bekaboo/dropbar.nvim',
     event = { 'BufReadPre', 'BufNewFile' },
     -- optional, but required for fuzzy finder support
@@ -66,51 +55,6 @@ return {
         hover = true,
       },
     },
-  },
-
-  {
-    "Owen-Dechow/videre.nvim",
-    cmd = "Videre",
-    dependencies = {
-      "Owen-Dechow/graph_view_yaml_parser",
-      "Owen-Dechow/graph_view_toml_parser",
-      "a-usr/xml2lua.nvim",
-    },
-    opts = {
-      box_style = "sharp",
-    }
-  },
-
-  {
-    "MuazTPM-YT/leetvim.nvim",
-    name = "leetvim",
-    cmd = { "LeetvimTemplate", "LeetvimAuth" },
-    keys = {
-      { "<leader>lt", ":LeetvimTemplate ", desc = "LeetVim Template" },
-      { "<leader>la", ":LeetvimAuth<cr>",  desc = "LeetCode Auth" },
-    },
-    config = function()
-      require("leetvim").setup({
-        base_dir = vim.fn.expand("~/leetcode"),
-        filename_pattern = "{number:03d}-{slug}.{ext}",
-        include_test_stub = true,
-        default_language = "python",
-        create_subdirs = false,
-      })
-    end,
-  },
-
-  {
-    "swaits/zellij-nav.nvim",
-    lazy = true,
-    event = "VeryLazy",
-    keys = {
-      { "<c-h>", "<cmd>ZellijNavigateLeftTab<cr>",  { silent = true, desc = "navigate left or tab" } },
-      { "<c-j>", "<cmd>ZellijNavigateDown<cr>",     { silent = true, desc = "navigate down" } },
-      { "<c-k>", "<cmd>ZellijNavigateUp<cr>",       { silent = true, desc = "navigate up" } },
-      { "<c-l>", "<cmd>ZellijNavigateRightTab<cr>", { silent = true, desc = "navigate right or tab" } },
-    },
-    opts = {},
   },
 
   {
